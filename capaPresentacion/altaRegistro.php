@@ -4,14 +4,14 @@ include '../capaNegocio/registro.php';
 ?>
 <!--
         * eliminaRegistro.php
-        * Módulo secundario que elimina un registro.
+        * Modulo secundario que elimina un registro.
 -->
 <!DOCTYPE html>
 <html lang="es-ES">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Eliminación de Registros</title>
+        <title>Eliminacion de Registros</title>
         <meta content="" name="description">
         <meta content="" name="keywords">
 
@@ -37,53 +37,45 @@ include '../capaNegocio/registro.php';
     </head>
     <body>
 
-        <h4>Alta de Registros ©  <?php echo date("Y"); ?></h4>
+        <h4>Eliminación de Registros ©  <?php echo date("Y"); ?></h4>
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-6">
-                <?php
-                    /** Si todos los campos del formulario tienen algún valor... */
+                    <?php
+                    /** Si todos los campos del formulario tienen algun valor... */
                     if (!empty($_POST['nombre']) && !empty($_POST['apellidos']) &&
-                            !empty($_POST['estado'])&&
-                            !empty($_POST['fechaNacimiento'])&&
+                            !empty($_POST['estado']) &&
+                            !empty($_POST['fechaNacimiento']) &&
                             !empty($_POST['sexo'])) {
 
                         /** @var Registro Instancia un objeto de la clase. */
                         $registro = new Registro();
                         /** Inicializa los atributos del objeto. */
                         $registro->setIdUsuario($_POST['idUsuario']);
-                                $registro->setNombre($_POST['nombre']);
-                                $registro->setApellidos($_POST['apellidos']);
-                                $registro->setEstado($_POST['estado']);
-                                                            /** @var string Adapta el formato de la fecha de dd/mm/aaaa -> aaaa-mm-dd. */
-                            $fechaNacimiento = explode('/', $_POST['fechaNacimiento']);
-                            $registro->setFechaNacimiento(new DateTime($fechaNacimiento[2] . '-' . $fechaNacimiento[1] . '-' . $fechaNacimiento[0]));
-                                $registro->setSexo($_POST['sexo']);
+                        $registro->setNombre($_POST['nombre']);
+                        $registro->setApellidos($_POST['apellidos']);
+                        $registro->setEstado($_POST['estado']);
+                        /** @var string Adapta el formato de la fecha de dd/mm/aaaa -> aaaa-mm-dd. */
+                        $fechaNacimiento = explode('/', $_POST['fechaNacimiento']);
+                        $registro->setFechaNacimiento(new DateTime($fechaNacimiento[2] . '-' . $fechaNacimiento[1] . '-' . $fechaNacimiento[0]));
+                        $registro->setSexo($_POST['sexo']);
 
-                            /** comprobamos si el Candidato no se ha inscrito ya */
-                            if ($registro->existeregistro()) {                                                        
-                                /** Almacena la relación registroCandidato y comprueba error. */
-                                if ($registro->almacenaregistro()) {
-                                    /** La registro se ha registrado correctamente. */
-                                    echo '<h4>El registro ha sido añadido con éxito</h4>';
-                                } else {
-                                    /** Se ha producido un error al registrar la registro. */
-                                    echo '<h5>Error al añadir el registro</h5>';
-                                }
-                             else {
-                                /** Se ha producido un error al registrar la registro. */
-                                echo '<h5>El registro ya estába en la base de datos</h5>';
-                            }
+                        /** Almacena el registro y comprueba error. */
+                        if ($registro->almacenaregistro()) {
+
+                            /** La registro se ha registrado correctamente. */
+                            echo '<h4>El registro ha sido añadido con exito</h4>';
                         } else {
                             /** Se ha producido un error al registrar la registro. */
-                            echo '<h5>El registro no existe en la base de datos</h5>';
+                            echo '<h5>Error al añadir el registro</h5>';
                         }
                     } else {
-                        echo "<h5>Error al inscribir el registro
-                          <br>Todos los campos son obligatorios</h5>";
+                        /** Se ha producido un error al añadir el registro. */
+                        echo "<h5>Error al añadir el registro
+                      <br>Todos los campos son obligatorios</h5>";
                     }
                     ?>
-                    <!-- Muestra el botón de volver. -->
+                    <!-- Muestra el boton de volver. -->
                     <form action="index.php" method="post">
 
                         <input class="boton" type="submit" value="Volver">
